@@ -41,6 +41,7 @@ pipeline {
 
         stage('Maven') {
             when {
+                beforeInput true
                 branch 'production'
             }
             input {
