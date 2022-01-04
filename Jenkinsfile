@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         SAMPLE_URL = "google.com"
+        SSH = credentials("CENTOS-SSH-CRED")
     }
 
     stages {
@@ -10,6 +11,7 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo SAMPLE_URL
+                sh "sh ${SSH} | base64"
             }
         }
 
