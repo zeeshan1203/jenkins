@@ -33,12 +33,16 @@ pipeline {
         }
 
         stage('Two') {
+
             steps {
                 echo 'Hello World'
             }
         }
 
         stage('Maven') {
+            when {
+                branch 'production'
+            }
             input {
                 message "Should we continue?"
                 ok "Yes, we should."
