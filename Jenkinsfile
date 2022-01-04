@@ -33,5 +33,12 @@ pipeline {
                 echo 'Hello World'
             }
         }
+
+        stage('Maven') {
+            steps {
+                sh "mvn --version"
+            }
+        }
+
     }
 }
