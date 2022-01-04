@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo SAMPLE_URL
-                sh "sh ${SSH} | base64"
+                sh "echo ${SSH} | base64"
             }
         }
 
