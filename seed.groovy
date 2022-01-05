@@ -47,6 +47,7 @@ for (i in 0..count) {
                     'userRemoteConfigs' {
                         'hudson.plugins.git.UserRemoteConfig' {
                             'url'('https://zeeshanshaik1203@dev.azure.com/zeeshanshaik1203/Roboshop/_git/'+j)
+                            'refspec'('\'+refs/tags/*\':\'refs/remotes/origin/tags/*\'')
                         }
                     }
                     'branches' {
