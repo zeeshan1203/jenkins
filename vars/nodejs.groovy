@@ -24,7 +24,8 @@ def call(String COMPONENT) {
             stage('Download Dependencies') {
                 steps {
                     script {
-                        sh 'env '
+                        addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
+                        sh 'env'
                         sh 'exit 1'
                         sh "npm install"
                     }
