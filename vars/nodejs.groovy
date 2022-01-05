@@ -26,12 +26,13 @@ def call(String COMPONENT) {
                     script {
                         addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
                     }
+                    sh 'env'
                     //sh "npm install"
                 }
             }
 
             stage('Prepare Archive' ) {
-                //when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags' ]) } }
+                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
                 steps {
                     sh """
             ls
