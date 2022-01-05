@@ -15,6 +15,12 @@ def call(String COMPONENT) {
                 }
             }
 
+            stage('Quality Gate Status') {
+                steps {
+                    sh "sonar-quality-gate.sh admin admin123 172.31.17.177 ${COMPONENT}"
+                }
+            }
+
         } // stages
     } // pipeline
 }
