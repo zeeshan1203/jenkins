@@ -40,7 +40,7 @@ def call(String COMPONENT) {
 
             stage('Upload to Nexus') {
                 steps {
-                    sh "curl -v -u admin:sami123 --upload-file ${COMPONENT}.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}.zip"
+                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}.zip"
                 }
             }
 
