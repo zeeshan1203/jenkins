@@ -47,7 +47,7 @@ def call(String COMPONENT) {
             stage('Upload to Nexus') {
                 when {
                     expression {
-                        expression { BRANCH_NAME ==~ /origin\/tags\/*/ }
+                        BRANCH_NAME ==~ /origin\/tags\/*/
                     }
                 }
                 steps {
