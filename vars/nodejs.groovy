@@ -25,14 +25,17 @@ def call(String COMPONENT) {
                 steps {
                     script {
                         addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
-                        sh 'env'
-                        sh 'exit 1'
                         sh "npm install"
                     }
                 }
             }
 
             stage('Prepare Archive' ) {
+                when {
+                    expression {
+                        environment name: 'GIT_BRANCH', value: 'origin/tags/*'
+                    }
+                }
                 steps {
                     sh """
             ls
@@ -42,6 +45,11 @@ def call(String COMPONENT) {
             }
 
             stage('Upload to Nexus') {
+                when {
+                    expression {
+                        environment name: 'GIT_BRANCH', value: 'origin/tags/*'
+                    }
+                }
                 steps {
                     sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}.zip"
                 }
