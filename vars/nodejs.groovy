@@ -33,7 +33,7 @@ def call(String COMPONENT) {
             stage('Prepare Archive' ) {
                 when {
                     expression {
-                        environment name: 'GIT_BRANCH', value: 'origin/tags/*'
+                        env.GIT_BRANCH ==~ /origin\/tags\/*/
                     }
                 }
                 steps {
