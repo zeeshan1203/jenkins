@@ -25,7 +25,7 @@ def call(String COMPONENT) {
                 steps {
                     print TAG_NAME
                     addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
-                    sh "npm install"
+//                    sh "npm install"
                 }
             }
 
