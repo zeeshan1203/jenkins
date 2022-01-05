@@ -47,7 +47,7 @@ def call(String COMPONENT) {
             stage('Upload to Nexus') {
                 when {
                     expression {
-                        environment name: 'GIT_BRANCH', value: 'origin/tags/*'
+                        expression { BRANCH_NAME ==~ /origin\/tags\/*/ }
                     }
                 }
                 steps {
