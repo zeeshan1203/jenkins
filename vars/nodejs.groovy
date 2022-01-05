@@ -19,7 +19,7 @@ def call(String COMPONENT) {
 
             stage('Submit Code to SonarQube') {
                 steps {
-                    sh 'echo $COMPONENT'
+                    sh "echo $COMPONENT"
                     //sh 'sonar-scanner -Dsonar.projectKey=${COMPONENT} -Dsonar.sources=. -Dsonar.host.url=http://172.31.17.177:9000 -Dsonar.login=5d0bbdf4d611370d0627732bde2157567539a8af'
                 }
             }
