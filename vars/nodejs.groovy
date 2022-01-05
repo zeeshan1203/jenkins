@@ -23,16 +23,15 @@ def call(String COMPONENT) {
 
             stage('Download Dependencies') {
                 steps {
-                    print TAG_NAME
-                    addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
-//                    sh "npm install"
+                    script {
+                        addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
+                    }
+                    //sh "npm install"
                 }
             }
 
             stage('Prepare Archive' ) {
-                when {
-                    buildingTag()
-                }
+                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags' ]) } }
                 steps {
                     sh """
             ls
