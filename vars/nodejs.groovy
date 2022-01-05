@@ -24,5 +24,12 @@ def call(String COMPONENT) {
             }
 
         } // stages
+
+        post {
+            always {
+                cleanWs()
+            }
+        }
+
     } // pipeline
 }
