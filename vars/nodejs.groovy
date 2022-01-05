@@ -26,8 +26,7 @@ def call(String COMPONENT) {
                     script {
                         addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
                     }
-                    sh 'env'
-                    //sh "npm install"
+                    sh "npm install"
                 }
             }
 
@@ -35,7 +34,7 @@ def call(String COMPONENT) {
                 when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
                 steps {
                     sh """     
-            echo zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip node_modules server.js 
+            zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip node_modules server.js 
           """
                 }
             }
@@ -43,7 +42,7 @@ def call(String COMPONENT) {
             stage('Upload to Nexus') {
                 when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
                 steps {
-                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}.zip"
+                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip"
                 }
             }
 
