@@ -42,11 +42,7 @@ def call(String COMPONENT) {
             }
 
             stage('Upload to Nexus') {
-//        when {
-//          expression {
-//             env.GIT_BRANCH ==~ /origin\/tags\/*/
-//          }
-//        }
+                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
                 steps {
                     sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}.zip"
                 }
