@@ -46,7 +46,7 @@ for (i in 0..count) {
                 'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
                     'userRemoteConfigs' {
                         'hudson.plugins.git.UserRemoteConfig' {
-                            'url'('https://zeeshanshaik1203@dev.azure.com/zeeshanshaik1203/Roboshop/_git/'+j+'frontend')
+                            'url'('https://zeeshanshaik1203@dev.azure.com/zeeshanshaik1203/Roboshop/_git/'+j)
                         }
                     }
                     'branches' {
