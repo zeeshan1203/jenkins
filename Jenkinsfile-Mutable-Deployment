@@ -24,11 +24,20 @@ pipeline {
       stage('Get the list of Servers') {
         steps {
           sh '''
-            aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}-${ENVIRONMENT}" | jq .Reservations[].Instances[].PrivateIpAddress | sed -e 's/"//g'
-          '''
-        }
+          aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}-${ENVIRONMENT}" | jq .Reservations[].Instances[].PrivateIpAddress | sed -e 's/"//g' >inv-${COMPONENT}-${ENV}
+        '''
       }
+    }
 
+      stage('Deploy to Servers') {
+        steps {
+          git branch: 'main', url: 'https://github.com/zeeshan1203/ansible.git'
+          sh '''
+            ls
+        '''
+      }
     }
 
   }
+
+}
