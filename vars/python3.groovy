@@ -39,6 +39,18 @@ def call(String COMPONENT) {
                     sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip"
                 }
             }
+
+            stage('Trigger Dev Deployment') {
+                steps {
+                    script {
+                        env.APP_VERSION=sh([returnStdout: true, script: "echo -n ${GIT_BRANCH}| awk -F / '{print \$NF}'" ]).trim()
+                        print APP_VERSION
+                    }
+                    build job: 'Deployment', parameters: [string(name: 'ENVIRONMENT', value: 'dev'), string(name: 'COMPONENT', value: "${COMPONENT}"), string(name: 'APP_VERSION', value: "${APP_VERSION}")]
+                }
+            }
+
+
         } // stages
     } // pipeline
 }
