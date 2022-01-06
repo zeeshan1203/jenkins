@@ -14,6 +14,7 @@ pipeline {
           script {
             addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${COMPONENT}"
             addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${APP_VERSION}"
+            addShortText background: 'orange', color: 'black', borderColor: 'yellow', text: "${ENVIRONMENT}"
           }
           sh """
             curl -s -u admin:sami123 http://172.31.87.229:8081/service/rest/repository/browse/${COMPONENT}/ | grep "${COMPONENT}-${APP_VERSION}"
