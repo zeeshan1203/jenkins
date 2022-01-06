@@ -20,6 +20,7 @@ def call(String COMPONENT) {
 //                    sh "sonar-quality-gate.sh admin admin123 172.31.17.177 ${COMPONENT}"
 //                }
 //            }
+
             stage('Prepare Archive' ) {
                 when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
                 steps {
