@@ -20,7 +20,21 @@ def call(String COMPONENT) {
 //                    sh "sonar-quality-gate.sh admin admin123 172.31.17.177 ${COMPONENT}"
 //                }
 //            }
+            stage('Prepare Archive' ) {
+                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+                steps {
+                    sh """     
+            zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip payment.ini payment.py rabbitmq.py requirements.txt 
+          """
+                }
+            }
 
+            stage('Upload to Nexus') {
+                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+                steps {
+                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip"
+                }
+            }
         } // stages
     } // pipeline
 }
