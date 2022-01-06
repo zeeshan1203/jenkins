@@ -9,14 +9,26 @@ pipeline {
 
   stages {
 
-    stage('Validate Application Version') {
-      steps {
-        sh """
-          curl -s -u admin:sami123 http://172.31.87.229:8081/service/rest/repository/browse/${COMPONENT}/ | grep "${COMPONENT}-${APP_VERSION}"
-        """
+      stage('Validate Application Version') {
+        steps {
+          script {
+            addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${COMPONENT}"
+            addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${APP_VERSION}"
+          }
+          sh """
+            curl -s -u admin:sami123 http://172.31.87.229:8081/service/rest/repository/browse/${COMPONENT}/ | grep "${COMPONENT}-${APP_VERSION}"
+          """
+        }
       }
+
+      stage('Get the list of Servers') {
+        steps {
+          sh '''
+            aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}-${ENVIRONMENT}" | jq .Reservations[].Instances[].PrivateIpAddress | sed -e 's/"//g'
+          '''
+        }
+      }
+
     }
 
   }
-
-}
