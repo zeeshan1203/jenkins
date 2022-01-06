@@ -33,7 +33,7 @@ pipeline {
         steps {
           git branch: 'main', url: 'https://github.com/zeeshan1203/ansible.git'
           sh '''
-            ansible-playbook -i inv-${COMPONENT}-${ENVIRONMENT} roboshop-mutable.yml -t ${COMPONENT} -e ENV=${ENVIRONMENT} -e COMPONENT=${COMPONENT}  -e APP_VERSION=${APP_VERSION}
+            ansible-playbook -i inv-${COMPONENT}-${ENVIRONMENT} roboshop-mutable.yml -t ${COMPONENT} -e ENV=${ENVIRONMENT} -e COMPONENT=${COMPONENT}  -e APP_VERSION=${APP_VERSION} -e ansible_user=centos -e ansible_password=DevOps321
         '''
       }
     }
