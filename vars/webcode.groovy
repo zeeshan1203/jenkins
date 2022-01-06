@@ -29,7 +29,7 @@ def call(String COMPONENT) {
                     }
                     sh """     
             cd static
-            zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip * 
+            zip -r ../${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip * 
           """
                 }
             }
