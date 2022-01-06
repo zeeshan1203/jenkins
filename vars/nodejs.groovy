@@ -30,19 +30,29 @@ def call(String COMPONENT) {
                 }
             }
 
-            stage('Prepare Archive' ) {
-                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
-                steps {
-                    sh """     
-            zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip node_modules server.js 
-          """
-                }
-            }
+//            stage('Prepare Archive' ) {
+//                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+//                steps {
+//                    sh """
+//            zip -r ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip node_modules server.js
+//          """
+//                }
+//            }
+//
+//            stage('Upload to Nexus') {
+//                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+//                steps {
+//                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip"
+//                }
+//            }
 
-            stage('Upload to Nexus') {
-                when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+            stage('Trigger Dev Deployment') {
                 steps {
-                    sh "curl -f -v -u admin:sami123 --upload-file ${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip http://172.31.87.229:8081/repository/${COMPONENT}/${COMPONENT}-`echo ${GIT_BRANCH}| awk -F / '{print \$NF}'`.zip"
+                    script {
+                        APP_VERSION=sh([returnStdout: true, script: "echo ${GIT_BRANCH}| awk -F / '{print \$NF}'" ])
+                        print APP_VERSION
+                    }
+                    //build job: 'Deployment', parameters: [string(name: 'ENVIRONMENT', value: 'dev'), string(name: 'COMPONENT', value: "${COMPONENT}"), string(name: 'APP_VERSION', value: "")]
                 }
             }
 
