@@ -1,0 +1,22 @@
+pipeline {
+  agent any
+
+  parameters {
+    choice(name: 'ENVIRONMENT', choices: ['dev', 'prod'], description: 'Choose the environment to deploy')
+    string(name: 'COMPONENT', defaultValue: '', description: 'Which Micro Service component need to deploy')
+    string(name: 'APP_VERSION', defaultValue: '', description: 'Which Application Version need to deploy')
+  }
+
+  stages {
+
+    stage('Validate Application Version') {
+      steps {
+        sh """
+          curl -s -u admin:sami123 http://172.31.87.229:8081/service/rest/repository/browse/${COMPONENT}/ | grep "${COMPONENT}-${APP_VERSION}"
+        """
+      }
+    }
+
+  }
+
+}

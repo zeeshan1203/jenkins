@@ -26,7 +26,7 @@ folder('CI-Pipelines') {
 //  }
 //}
 
-/// RUnning a loop to lkeep the code dry.
+/// Running a loop to lkeep the code dry.
 def component = ["cart", "catalogue","user","payment","shipping","frontend"];
 
 def count=(component.size()-1)
@@ -62,6 +62,27 @@ for (i in 0..count) {
                 'scriptPath'('Jenkinsfile')
                 'lightweight'(true)
             }
+        }
+    }
+}
+
+pipelineJob('Deployment') {
+    configure { flowdefinition ->
+        flowdefinition << delegate.'definition'(class:'org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition',plugin:'workflow-cps') {
+            'scm'(class:'hudson.plugins.git.GitSCM',plugin:'git') {
+                'userRemoteConfigs' {
+                    'hudson.plugins.git.UserRemoteConfig' {
+                        'url'('https://github.com/zeeshan1203/jenkins.git')
+                    }
+                }
+                'branches' {
+                    'hudson.plugins.git.BranchSpec' {
+                        'name'('*/main')
+                    }
+                }
+            }
+            'scriptPath'('Jenkinsfile-Mutable-Deployment')
+            'lightweight'(true)
         }
     }
 }
