@@ -23,6 +23,9 @@ def call(String COMPONENT) {
 
             stage('Prepare Archive' ) {
                 when { expression { sh([returnStdout: true, script: 'echo ${GIT_BRANCH} | grep tags || true' ]) } }
+                script {
+                    addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
+                }
                 steps {
                     sh """     
             cd static

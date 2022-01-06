@@ -12,8 +12,9 @@ def call(String COMPONENT) {
             stage('Compile Code') {
                 steps {
                     script {
-                        sh "mvn compile"
+                        addShortText background: 'yellow', color: 'black', borderColor: 'yellow', text: "${GIT_BRANCH}"
                     }
+                    sh "mvn compile"
                 }
             }
 
@@ -31,9 +32,7 @@ def call(String COMPONENT) {
 
             stage('Build Package') {
                 steps {
-                    script {
-                        sh "mvn package"
-                    }
+                    sh "mvn package"
                 }
             }
 
